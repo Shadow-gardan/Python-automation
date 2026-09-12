@@ -62,7 +62,7 @@ git clone https://github.com/Shadow-gardan/Python-automation.git
 cd Python-automation/projects/python-automation
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ## Usage
@@ -82,7 +82,7 @@ python -m src.main run-all
 ## Testing
 
 ```bash
-pytest -v
+python -m pytest -v
 ```
 
 Tests use temporary directories and in-memory databases, so they do not modify project data.
