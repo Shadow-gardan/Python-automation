@@ -1,7 +1,7 @@
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Any
-from datetime import datetime
 
 
 def summarize_records(records: list[dict[str, Any]]) -> dict[str, Any]:
@@ -41,9 +41,16 @@ def write_text_report(
 	"""Write a readable report, timestamping the path when it already exists."""
 	path = Path(output_path)
 	if path.exists():
-		path = path.with_name(
+		base_path = path.with_name(
 			f"{path.stem}_{datetime.now().strftime('%Y%m%d_%H%M%S')}{path.suffix}"
 		)
+		path = base_path
+		counter = 1
+		while path.exists():
+			path = base_path.with_name(
+				f"{base_path.stem}_{counter}{base_path.suffix}"
+			)
+			counter += 1
 	path.parent.mkdir(parents=True, exist_ok=True)
 	category_lines = "\n".join(
 		f"  - {category}: {count}"

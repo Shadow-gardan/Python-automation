@@ -17,6 +17,25 @@ A production-minded, beginner-readable Python automation application for organiz
 
 Python 3, SQLite, SQL, pytest, Git/GitHub, and Linux/Ubuntu. Runtime functionality uses Python's standard library; pytest is the only development dependency.
 
+## Architecture
+
+```text
+Input files
+	↓
+Python automation and file organization
+	↓
+CSV cleaning and duplicate removal
+	↓
+SQLite storage
+	↓
+SQL analysis
+	↓
+Text summary report
+```
+
+The workflow is intentionally split into small modules so each stage can be
+tested or reused independently.
+
 ## Project Structure
 
 ```text
@@ -63,10 +82,17 @@ python -m src.main run-all
 ## Testing
 
 ```bash
-pytest
+pytest -v
 ```
 
 Tests use temporary directories and in-memory databases, so they do not modify project data.
+
+## Example
+
+The sample `data/input/customers.csv` contains eight rows, including one
+duplicate customer record and three missing values. Running `run-all` creates a
+cleaned CSV with seven rows, stores those rows in SQLite, and writes a report
+under `data/output/` with customer counts, average age, and city statistics.
 
 ## Safety
 
@@ -84,3 +110,9 @@ The file organizer copies files by default. It never deletes originals and never
 ## Portfolio Value
 
 This project demonstrates practical freelance skills: filesystem automation, data cleaning, duplicate detection, missing-value handling, SQLite and SQL reporting, structured logging, exception handling, CLI design, testing, and Git-based delivery.
+
+## Freelance Use Case
+
+The same pattern can automate repetitive file organization, clean incoming
+client CSV exports, import data into a database, run repeatable SQL reports,
+and deliver a readable summary without modifying original source files.
