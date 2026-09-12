@@ -1,15 +1,15 @@
 # Python File & Data Automation Tool
 
-The first version organizes files by extension. It is the foundation for a
-larger automation project that will later add CSV/JSON processing, SQL storage,
-logging, and report generation.
+The first version organizes files by extension, processes CSV/JSON records, and
+writes a small JSON report. It is the foundation for a larger automation project
+that will later add SQL storage and logging.
 
 ## Structure
 
 ```text
 python-automation/
-├── data/input/              # Files to organize
-├── data/output/             # Generated category folders
+├── data/input/              # Files and data to process
+├── data/output/             # Generated categories and reports
 ├── logs/                    # Runtime logs
 ├── src/
 │   ├── main.py
@@ -32,4 +32,5 @@ PYTHONPATH=src python src/main.py
 
 The organizer copies files from `data/input` into folders such as `Images`,
 `Documents`, and `Other` under `data/output`. Existing files are preserved by
-adding a numeric suffix to duplicate names.
+adding a numeric suffix to duplicate names. The CSV/JSON processor normalizes
+field names and the report generator writes a record-count summary.
