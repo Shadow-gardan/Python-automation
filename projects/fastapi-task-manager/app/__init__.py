@@ -1,0 +1,1 @@
+"""FastAPI task manager application."""
