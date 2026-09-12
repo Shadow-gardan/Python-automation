@@ -6,6 +6,11 @@ from src.file_organizer import get_category, organize_files
 
 
 class FileOrganizerTests(unittest.TestCase):
+	def test_missing_input_directory(self):
+		with tempfile.TemporaryDirectory() as directory:
+			with self.assertRaises(FileNotFoundError):
+				organize_files(Path(directory) / "missing", Path(directory) / "output")
+
 	def test_get_category_is_case_insensitive(self):
 		self.assertEqual(get_category(Path("photo.PNG")), "Images")
 		self.assertEqual(get_category(Path("unknown.xyz")), "Other")
@@ -21,7 +26,7 @@ class FileOrganizerTests(unittest.TestCase):
 			(input_directory / "notes.xyz").write_text("notes")
 			(input_directory / "nested").mkdir()
 
-			organize_files(str(input_directory), str(output_directory))
+			stats = organize_files(str(input_directory), str(output_directory))
 
 			self.assertEqual(
 				(output_directory / "Documents" / "report.pdf").read_text(),
@@ -29,6 +34,8 @@ class FileOrganizerTests(unittest.TestCase):
 			)
 			self.assertTrue((output_directory / "Images" / "photo.jpg").exists())
 			self.assertTrue((output_directory / "Other" / "notes.xyz").exists())
+			self.assertEqual(stats["files_copied"], 3)
+			self.assertEqual(stats["files_skipped"], 1)
 
 	def test_duplicate_names_are_preserved(self):
 		with tempfile.TemporaryDirectory() as directory:

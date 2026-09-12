@@ -4,6 +4,8 @@ __pycache__/
 *.pyc
 .env
 *.db
+*.sqlite
 logs/*.log
 data/output/*
 !data/output/.gitkeep
+.pytest_cache/

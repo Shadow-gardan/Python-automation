@@ -1,5 +1,6 @@
 from pathlib import Path
 import shutil
+from typing import Any
 
 
 FILE_CATEGORIES = {
@@ -36,8 +37,8 @@ def _unique_destination(destination: Path) -> Path:
 		counter += 1
 
 
-def organize_files(input_directory: str, output_directory: str) -> None:
-	"""Copy input files into output folders based on their file type."""
+def organize_files(input_directory: str | Path, output_directory: str | Path) -> dict[str, Any]:
+	"""Copy input files into type folders and return processing statistics."""
 	input_path = Path(input_directory)
 	output_path = Path(output_directory)
 
@@ -47,9 +48,13 @@ def organize_files(input_directory: str, output_directory: str) -> None:
 		raise NotADirectoryError(f"Input path is not a directory: {input_path}")
 
 	output_path.mkdir(parents=True, exist_ok=True)
+	files_by_category: dict[str, int] = {}
+	files_copied = 0
+	files_skipped = 0
 
 	for file_path in sorted(input_path.iterdir()):
 		if not file_path.is_file():
+			files_skipped += 1
 			continue
 
 		category = get_category(file_path)
@@ -57,4 +62,12 @@ def organize_files(input_directory: str, output_directory: str) -> None:
 		category_directory.mkdir(parents=True, exist_ok=True)
 		destination = _unique_destination(category_directory / file_path.name)
 		shutil.copy2(file_path, destination)
-		print(f"Copied: {file_path.name} -> {category}/{destination.name}")
+		files_copied += 1
+		files_by_category[category] = files_by_category.get(category, 0) + 1
+
+	return {
+		"total_files": files_copied + files_skipped,
+		"files_copied": files_copied,
+		"files_skipped": files_skipped,
+		"files_by_category": files_by_category,
+	}

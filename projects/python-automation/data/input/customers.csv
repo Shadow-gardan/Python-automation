@@ -1,0 +1,9 @@
+id,name,email,age,city
+1,Aman,aman@example.com,21,Delhi
+2,Rahul,rahul@example.com,22,Noida
+3,Priya,priya@example.com,,Delhi
+4,Aman,aman@example.com,21,Delhi
+5,Neha,neha@example.com,24,Lucknow
+6,Rohit,,23,Kanpur
+7,Simran,simran@example.com,25,
+8,Arjun,arjun@example.com,19,Delhi
